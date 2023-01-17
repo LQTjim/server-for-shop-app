@@ -11,17 +11,19 @@ exports.order = catchAsync(async (req, res, next) => {
   const orderDetail = [];
 
   req.body.map((el) => {
-    if (Object.getOwnPropertyNames(el).toString() !== "itemId,quantity") {
+    //price is send but never use here
+    if (Object.getOwnPropertyNames(el).toString() !== "itemId,quantity,price") {
       return next(new AppError("Valid order,please try again", 400));
     }
-    return orderDetail.push(el);
+    orderDetail.push(el);
   });
+
   //[{ itemId: 'asdf111', quantity: 1 },{ itemId: 'asdf1333', quantity: 3 },{ itemId: 'asdf111', quantity: 122 }]
-  //avoid situation above
+  //avoid situation above(repeat itemId)
   const seen = new Set();
   if (
     orderDetail.some((curr) => {
-      return seen.size === seen.add(curr.itemId).size;
+      seen.size === seen.add(curr.itemId).size;
     })
   ) {
     return next(new AppError("Valid order,please try again", 400));
@@ -34,9 +36,16 @@ exports.order = catchAsync(async (req, res, next) => {
 
   const promise = await Promise.all(
     orderDetail.map(async (el) => {
-      return Item.findById(el.itemId).catch((e) => {
-        throw e;
-      });
+      return Item.findById(el.itemId)
+        .then((r) => {
+          if (!r) {
+            return next(new AppError("item not find", 400));
+          }
+          return r;
+        })
+        .catch(() => {
+          next(new AppError("item not find", 400));
+        });
     })
   );
 
@@ -47,7 +56,11 @@ exports.order = catchAsync(async (req, res, next) => {
     return (a * 100 + c * 100) / 100;
   });
 
-  res
-    .status(200)
-    .json({ status: "success", total: totalPrice, message: "Order receive" });
+  res.status(200).json({
+    status: "success",
+    message: "Order receive",
+    account: "ABC123456789",
+    orderDetail,
+    totalPrice,
+  });
 });

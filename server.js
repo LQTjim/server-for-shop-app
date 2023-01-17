@@ -15,5 +15,5 @@ app.use("*", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log("server start");
+  console.log(`server start at ${port}`);
 });

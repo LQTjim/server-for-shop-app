@@ -9,6 +9,7 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 });
 
 //this one just for test could I handle routes in seperate routes not actuall use
+//this not work
 exports.handleUserRoutes = catchAsync(async (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} in user routes`, 404));
 });

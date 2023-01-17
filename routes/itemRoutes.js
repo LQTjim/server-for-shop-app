@@ -24,5 +24,8 @@ router
   );
 router.route("/random-three").get(itemController.randomThree);
 router.route("/order").post(authController.protect, cartController.order);
+//這個route放在前面會block其他東西,使用param最好搭配固定的詞
+//router.route("/:id").get(itemController.getOneItem);
+router.route("/get-one/:id").get(itemController.getOneItem);
 
 module.exports = router;

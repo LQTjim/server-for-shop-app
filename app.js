@@ -14,6 +14,7 @@ const hpp = require("hpp");
 const userRouter = require("./routes/userRoutes");
 const testRouter = require("./routes/testRoutes");
 const itemRouter = require("./routes/itemRoutes");
+const commentRouter = require("./routes/commentRoutes");
 
 const app = express();
 //cors
@@ -50,7 +51,7 @@ app.use(
 );
 // limit req frequencies
 const limiter = rateLimit({
-  max: 100,
+  max: 1000,
   windowMs: 60 * 60 * 1000,
   message: "請求已達上限",
 });
@@ -59,6 +60,7 @@ app.use("/api", limiter);
 app.use("/api/user", userRouter);
 app.use("/api/test", testRouter);
 app.use("/api/item", itemRouter);
+app.use("/api/comment", commentRouter);
 //catch every missing routes
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl}`, 404));

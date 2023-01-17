@@ -15,10 +15,10 @@ const createSendToken = (user, statusCode, res) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    httpOnly: true,
+    // httpOnly: true,
   };
   //Marks the cookie to be used with HTTPS only.
-  if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
+  // if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
 
   res.cookie("jwt", token, cookieOptions);
   console.log(token);
@@ -47,6 +47,7 @@ const createSendToken = (user, statusCode, res) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
+  console.log(req.body);
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
@@ -71,6 +72,39 @@ exports.login = catchAsync(async (req, res, next) => {
   // // res.cookie("jwt", refreshToken, { maxAge: 40000, httpOnly: true });
   // res.json({ accessToken: accessToken });
   createSendToken(user, 200, res);
+});
+
+exports.loginWithJWT = catchAsync(async (req, res, next) => {
+  let token;
+  if (!req.cookies.jwt) {
+    return next(new AppError("You are not logged in.", 401));
+  }
+  token = req.cookies.jwt;
+
+  const decoded = await promisify(jwt.verify)(
+    token,
+    process.env.ACCESS_TOKEN_SECRET
+  );
+
+  const currentUser = await User.findById(decoded.id);
+  if (!currentUser) {
+    return next(
+      new AppError(
+        "The user belonging to this token does no longer exist.",
+        401
+      )
+    );
+  }
+  if (currentUser.changedPasswordAfter(decoded.iat)) {
+    return next(
+      new AppError("User recently changed password! Please log in again.", 401)
+    );
+  }
+  res.status(201).json({
+    name: currentUser.name,
+    email: currentUser.email,
+    role: currentUser.role,
+  });
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
