@@ -1,5 +1,5 @@
 //error是無法被spread oprator複製 物件有分enumerable和不可enumerable
-const AppError = require("./../utils/appError.js");
+const AppError = require("../utils/appError.js");
 
 const handleCastErrorDB = () => {
   // const message = `Invalid ${err.path}: ${err.value}.`;

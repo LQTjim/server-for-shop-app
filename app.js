@@ -1,5 +1,5 @@
 const express = require("express");
-const AppError = require("./utils/AppError.js");
+const AppError = require("./utils/appError.js");
 const globalErrorHandler = require("./controllers/errorContorller.js");
 
 // const cors = require("cors");

@@ -1,6 +1,6 @@
 const Item = require("./../model/itemModel.js");
 const catchAsync = require("./../utils/catchAsync.js");
-const AppError = require("./../utils/AppError.js");
+const AppError = require("../utils/appError.js");
 
 exports.createOneItem = catchAsync(async (req, res, next) => {
   const { id, title, price, description, category, image, rating } = req.body;

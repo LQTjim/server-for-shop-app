@@ -1,7 +1,7 @@
 const catchAsync = require("./../utils/catchAsync.js");
 
 const Item = require("./../model/itemModel.js");
-const AppError = require("./../utils/AppError.js");
+const AppError = require("../utils/appError.js");
 
 exports.order = catchAsync(async (req, res, next) => {
   // const now = new Date();
