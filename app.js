@@ -3,6 +3,7 @@ const AppError = require("./utils/appError.js");
 const globalErrorHandler = require("./controllers/errorContorller.js");
 
 // const cors = require("cors");
+const history = require("connect-history-api-fallback");
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const morgan = require("morgan");
@@ -19,6 +20,10 @@ const commentRouter = require("./routes/commentRoutes.js");
 const app = express();
 //cors
 // app.use(cors({ origin: "http://localhost:3000" }));
+
+//solve SPA refreash occur 404,or hard code URL like "domain/about" occur 404.
+app.use(history());
+
 //set security HTTP headers
 //provide third-party img block by Content Security Policy(CSP)
 app.use(
