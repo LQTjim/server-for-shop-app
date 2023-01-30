@@ -1,7 +1,7 @@
 const fs = require("fs");
 const mongoose = require("mongoose");
 require("dotenv").config();
-const Item = require("./../model/itemModel");
+const Item = require("./../model/itemModel.js");
 
 const DB = process.env.DATABASE.replace(
   "<PASSWORD>",

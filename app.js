@@ -1,6 +1,6 @@
 const express = require("express");
-const AppError = require("./utils/AppError");
-const globalErrorHandler = require("./controllers/errorContorller");
+const AppError = require("./utils/AppError.js");
+const globalErrorHandler = require("./controllers/errorContorller.js");
 
 // const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -11,10 +11,10 @@ const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 const hpp = require("hpp");
 
-const userRouter = require("./routes/userRoutes");
-const testRouter = require("./routes/testRoutes");
-const itemRouter = require("./routes/itemRoutes");
-const commentRouter = require("./routes/commentRoutes");
+const userRouter = require("./routes/userRoutes.js");
+const testRouter = require("./routes/testRoutes.js");
+const itemRouter = require("./routes/itemRoutes.js");
+const commentRouter = require("./routes/commentRoutes.js");
 
 const app = express();
 //cors

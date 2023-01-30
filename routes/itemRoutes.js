@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-const itemController = require("./../controllers/itemController");
-const authController = require("./../controllers/authController");
-const cartController = require("./../controllers/cartController");
+const itemController = require("./../controllers/itemController.js");
+const authController = require("./../controllers/authController.js");
+const cartController = require("./../controllers/cartController.js");
 router
   .route("/")
   .get(itemController.getAllItems)

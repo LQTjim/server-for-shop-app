@@ -1,6 +1,6 @@
-const catchAsync = require("./../utils/catchAsync");
-const Comment = require("./../model/commentModel");
-// const AppError = require("../utils/AppError");
+const catchAsync = require("./../utils/catchAsync.js");
+const Comment = require("./../model/commentModel.js");
+// const AppError = require("../utils/AppError.js");
 
 exports.getAllComment = catchAsync(async (req, res, next) => {
   const doc = await Comment.find().sort({ createdAt: -1 });
