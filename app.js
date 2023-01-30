@@ -1,5 +1,6 @@
 const express = require("express");
 const AppError = require("./utils/appError.js");
+const path = require("path");
 const globalErrorHandler = require("./controllers/errorContorller.js");
 
 // const cors = require("cors");
@@ -71,10 +72,11 @@ app.use("/api/user", userRouter);
 app.use("/api/test", testRouter);
 app.use("/api/item", itemRouter);
 app.use("/api/comment", commentRouter);
-app.use(express.static("client"));
-const path = require("path");
-//if this middleware implment before api routes ,may occur data fetch error.
+
+//if this middleware implement before api routes ,may occur data fetch error.
+//history()should be implement before  app.use(express.static("client")); or bug occur.
 app.use(history());
+app.use(express.static("client"));
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "client", "static", "index.html"));
 });
