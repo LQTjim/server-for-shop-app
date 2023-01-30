@@ -22,7 +22,7 @@ const app = express();
 // app.use(cors({ origin: "http://localhost:3000" }));
 
 //solve SPA refreash occur 404,or hard code URL like "domain/about" occur 404.
-app.use(history());
+// app.use(history());
 
 //set security HTTP headers
 //provide third-party img block by Content Security Policy(CSP)
@@ -73,6 +73,8 @@ app.use("/api/item", itemRouter);
 app.use("/api/comment", commentRouter);
 app.use(express.static("client"));
 const path = require("path");
+//if this middleware implment before api routes ,may occur data fetch error.
+app.use(history());
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "client", "static", "index.html"));
 });
