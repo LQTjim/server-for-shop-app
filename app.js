@@ -20,7 +20,12 @@ const app = express();
 //cors
 // app.use(cors({ origin: "http://localhost:3000" }));
 //set security HTTP headers
-app.use(helmet());
+//provide third-party img block by Content Security Policy(CSP)
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 //use logger when dev working
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -51,7 +56,7 @@ app.use(
 );
 // limit req frequencies
 const limiter = rateLimit({
-  max: 1000,
+  max: 100,
   windowMs: 60 * 60 * 1000,
   message: "請求已達上限",
 });
@@ -61,6 +66,11 @@ app.use("/api/user", userRouter);
 app.use("/api/test", testRouter);
 app.use("/api/item", itemRouter);
 app.use("/api/comment", commentRouter);
+app.use(express.static("client"));
+const path = require("path");
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "static", "index.html"));
+});
 //catch every missing routes
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl}`, 404));

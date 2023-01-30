@@ -9,6 +9,7 @@
   "parserOptions": {
     "ecmaVersion": "latest"
   },
+  "ignorePatterns": ["client/*.js"],
   "rules": {
     "spaced-comment": "off",
     "no-console": "off",
