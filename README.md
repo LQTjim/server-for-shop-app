@@ -1,4 +1,4 @@
-### This server is made for [shop-app]("https://github.com/LQTjim/shop-app" "shop-app"), a ==React== APP
+### This server is made for [shop-app]("https://github.com/LQTjim/shop-app" "shop-app"), a ``React`` APP
 
 react app host on this node server(CSR)
 Ready to host on render.com
@@ -30,5 +30,6 @@ middleware helmet could handle third-party src
 ---
 
 use POSTMAN for api test
+![postman-test](https://user-images.githubusercontent.com/99523875/215650116-52bae3f8-b4cb-429d-8a55-a61420ad1572.jpg)
 
 ---
