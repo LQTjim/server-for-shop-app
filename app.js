@@ -72,6 +72,10 @@ app.use("/api/user", userRouter);
 app.use("/api/test", testRouter);
 app.use("/api/item", itemRouter);
 app.use("/api/comment", commentRouter);
+//Handle invalid endpoints in API routes.
+app.use("/api/*", (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl}`, 404));
+});
 
 //if this middleware implement before api routes ,may occur data fetch error.
 //history()should be implement before  app.use(express.static("client")); or bug occur.
